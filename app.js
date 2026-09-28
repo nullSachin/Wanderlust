@@ -41,9 +41,7 @@ app.use(express.static(path.join(__dirname,"/public")));
 
 const store = MongoStore.create({
     mongoUrl: dbUrl,
-    crypto: {
-      secret: process.env.SECRET,
-    },
+    collectionName: "sessions_new",
     touchAfter: 24 * 3600,
 });
 
@@ -69,6 +67,15 @@ const sessionOptions = {
 
 app.use(session(sessionOptions));
 app.use(flash());
+// Wait for the session to be saved before redirecting,
+// so flash messages appear on the page you are sent to
+app.use((req, res, next) => {
+    const originalRedirect = res.redirect.bind(res);
+    res.redirect = function (...args) {
+        req.session.save(() => originalRedirect(...args));
+    };
+    next();
+});
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -84,15 +91,9 @@ app.use((req, res, next) => {
     next();
 });
 
-// app.get("/demouser", async(req,res) => {
-//     let fakeUser = new User({
-//         email: "student@gmail.com",
-//         username: "delta-student"
-//     });
-//     let registerdUser = await User.register(fakeUser,"helloworld");
-//     res.send(registerdUser);
-// });
-
+app.get("/", (req, res) => {
+    res.redirect("/listings");
+});
 app.use("/listings", listingRouter);
 app.use("/listings/:id/reviews", reviewRouter);
 app.use("/", userRouter);
@@ -101,12 +102,15 @@ app.use((req, res, next) => {
     next(new ExpressError(404, "Page Not Found!"));
 });
 
-app.use((err, req, res, next) => {
-    let { statusCode=500, message="Something went wrong!"} = err;
+app.use((err, req, res, next) => { 
+    res.locals.currUser = req.user || null; 
+    res.locals.success = res.locals.success || []; 
+    res.locals.error = res.locals.error || []; 
+    let { statusCode=500, message="Something went wrong!"} = err; 
     res.status(statusCode).render("error.ejs", {message});
-    //res.status(statusCode).send(message);
-});
+ });
 
-app.listen(8080, () => {
-    console.log("server is listening on port 8080");
+const port = process.env.PORT || 8080;
+app.listen(port, () => {
+    console.log(`server is listening on port ${port}`);
 });
