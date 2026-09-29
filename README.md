@@ -2,7 +2,7 @@
 
 WanderLust is a full-stack travel listing platform inspired by Airbnb. Users can browse stays, create and manage their own listings with photos, leave star-rated reviews, and see each property's location on an interactive map.
 
-**Live demo:** https://YOUR-RENDER-LINK.onrender.com
+**Live demo:** https://wanderlust-vf2g.onrender.com
 
 ## Features
 
