@@ -2,49 +2,83 @@
   <div class="container-fluid">
     <a class="navbar-brand d-flex align-items-center mb-0" href="/listings">
       <i class="fa-regular fa-compass"></i>
-      <span class="navbar-brand-text">WanderLust</span>
+      <span class="navbar-brand-text d-none d-md-inline">WanderLust</span>
     </a>
 
-    <button class="navbar-toggler" type="button"
-     data-bs-toggle="collapse"
-     data-bs-target="#navbarNavAltMarkup">
+    <div class="search-center-wrapper px-2 px-md-3">
+      <form class="search-mobile d-flex d-md-none w-100" role="search">
+        <input type="search" class="search-mobile-input" placeholder="Search destinations" />
+        <button class="search-btn-round" type="submit">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+      </form>
+
+  <form class="search-segmented d-none d-md-flex" role="search">
+  <div class="search-segment">
+    <span class="search-segment-title">Where</span>
+    <span class="search-segment-label">Anywhere</span>
+  </div>
+  <div class="search-segment">
+    <span class="search-segment-title">When</span>
+    <span class="search-segment-label">Any week</span>
+  </div>
+  <div class="search-segment search-segment-muted">
+    <span class="search-segment-title">Who</span>
+    <span class="search-segment-label">Add guests</span>
+  </div>
+  <button class="search-btn-round" type="submit">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+</form>
+    </div>
+
+    <div class="d-none d-md-flex align-items-center gap-2">
+      <a class="nav-link" href="/listings/new">Airbnb your home</a>
+      <% if(!currUser){ %>
+        <a class="pill-btn" href="/signup">Sign up</a>
+        <a class="pill-btn pill-btn-primary" href="/login">Log in</a>
+      <% } %>
+      <% if(currUser){ %>
+<div class="dropdown">
+  <button class="user-avatar-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <i class="fa-solid fa-bars" style="font-size:0.8rem;"></i>
+    <span class="user-avatar-circle"><%= currUser.username.charAt(0).toUpperCase() %></span>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end user-dropdown-menu">
+    <li><a class="dropdown-item" href="/mylistings"><i class="fa-regular fa-rectangle-list me-2"></i>My listings</a></li>
+    <li><a class="dropdown-item" href="/profile"><i class="fa-regular fa-user me-2"></i>Edit profile</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><a class="dropdown-item" href="/logout"><i class="fa-solid fa-arrow-right-from-bracket me-2"></i>Log out</a></li>
+  </ul>
+</div>
+<% } %>
+    </div>
+
+    <button class="navbar-toggler d-md-none" type="button"
+     data-bs-toggle="offcanvas"
+     data-bs-target="#navbarSidebar"
+     aria-controls="navbarSidebar">
       <span class="navbar-toggler-icon"></span>
     </button>
-
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-
-      <div class="navbar-nav">
-        <a class="nav-link" href="/listings">Explore</a>
-      </div>
-
-      <div class="flex-grow-1 d-none d-md-flex justify-content-center px-3">
-        <form class="search-segmented" role="search">
-          <div class="search-segment">
-            <span class="search-segment-label">Anywhere</span>
-          </div>
-          <div class="search-segment">
-            <span class="search-segment-label">Any week</span>
-          </div>
-          <div class="search-segment search-segment-muted">
-            <span class="search-segment-label">Add guests</span>
-          </div>
-          <button class="search-btn-round" type="submit">
-            <i class="fa-solid fa-magnifying-glass"></i>
-          </button>
-        </form>
-      </div>
-
-      <div class="navbar-nav ms-auto align-items-md-center gap-2">
-        <a class="nav-link" href="/listings/new">Airbnb your home</a>
-        <% if(!currUser){ %>
-          <a class="pill-btn" href="/signup">Sign up</a>
-          <a class="pill-btn pill-btn-primary" href="/login">Log in</a>
-        <% } %>
-        <% if(currUser){ %>
-          <a class="pill-btn pill-btn-primary" href="/logout">Log out</a>
-        <% } %>
-      </div>
-
-    </div>
   </div>
 </nav>
+
+<div class="offcanvas offcanvas-end wanderlust-sidebar" tabindex="-1" id="navbarSidebar">
+  <div class="offcanvas-header">
+    <h6 class="offcanvas-title mb-0">
+      <i class="fa-regular fa-compass" style="color:#fe424d;"></i> WanderLust
+    </h6>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+  </div>
+  <div class="offcanvas-body d-flex flex-column gap-2">
+    <a class="nav-link" href="/listings/new">Airbnb your home</a>
+    <hr class="my-1">
+    <% if(!currUser){ %>
+      <a class="pill-btn text-center" href="/signup">Sign up</a>
+      <a class="pill-btn pill-btn-primary text-center" href="/login">Log in</a>
+    <% } %>
+    <% if(currUser){ %>
+      <a class="pill-btn pill-btn-primary text-center" href="/logout">Log out</a>
+    <% } %>
+  </div>
+</div>

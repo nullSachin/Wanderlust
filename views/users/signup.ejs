@@ -1,28 +1,35 @@
 <% layout("/layouts/boilerplate") %>
 
- <div class="row mt-3">
-    <h1 class="col-6 offset-3">SignUp on Wanderlust</h1>
-    <div class="col-6 offset-3">
-        <form action="/signup" method="POST" novalidate class="needs-validation">
+<div class="auth-wrapper">
+  <div class="auth-card">
+    <h2 class="auth-title">Sign up</h2>
+    <p class="auth-subtitle">Create your WanderLust account</p>
 
-            <div class="mb-3">
-                <label for="username" class="form-label">Username</label>
-                <input name="username" id="username" type="text" class="form-control" required>
-                <div class="valid-feedback">Looks good!</div>
-            </div>
+    <a href="/auth/google" class="social-btn">
+      <i class="fa-brands fa-google"></i> Continue with Google
+    </a>
+    <a href="/auth/facebook" class="social-btn">
+      <i class="fa-brands fa-facebook" style="color:#1877F2;"></i> Continue with Facebook
+    </a>
 
-            <div class="mb-3">
-                <label for="email" class="form-label">Email</label>
-                <input name="email" id="email" type="text" class="form-control" required>
-            </div>
+    <div class="auth-divider"><span>or</span></div>
 
-            <div class="mb-3">
-                <label for="password" class="form-label">Password</label>
-                <input name="password" id="password" type="password" class="form-control" required>
-            </div>
+    <form action="/signup" method="POST" novalidate class="needs-validation">
+      <div class="mb-3">
+        <label for="username" class="auth-label">Username</label>
+        <input type="text" id="username" name="username" class="auth-input" required>
+      </div>
+      <div class="mb-3">
+        <label for="email" class="auth-label">Email</label>
+        <input type="email" id="email" name="email" class="auth-input" required>
+      </div>
+      <div class="mb-3">
+        <label for="password" class="auth-label">Password</label>
+        <input type="password" id="password" name="password" class="auth-input" required>
+      </div>
+      <button type="submit" class="auth-submit">Sign up</button>
+    </form>
 
-            <button class="btn btn-success">SignUp</button>
-
-        </form>
-    </div>
- </div>
+    <p class="auth-footer-text">Already have an account? <a href="/login">Log in</a></p>
+  </div>
+</div>
