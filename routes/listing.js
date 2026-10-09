@@ -38,5 +38,8 @@ router
 //Edit Route
 router.get("/:id/edit", isLoggedIn, isOwner, wrapAsync(listingController.renderEditForm));
 
+// Favourite Route (heart icon)
+router.post("/:id/favourite", isLoggedIn, wrapAsync(listingController.toggleFavourite));
+
 
 module.exports = router;

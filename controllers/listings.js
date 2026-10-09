@@ -1,11 +1,62 @@
 const Listing = require("../models/listing");
+const User = require("../models/user.js");
 const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
 const mapToken = process.env.MAP_TOKEN;
 const geocodingClient = mbxGeocoding({accessToken: mapToken});
 
 module.exports.index = async (req, res) => {
     const allListings = await Listing.find({});
-    res.render("listings/index", {allListings});
+
+    // Listings the logged-in user has favourited
+    let favouriteIds = [];
+    if (req.user) {
+        const user = await User.findById(req.user._id).select("favourites");
+        favouriteIds = user.favourites.map((id) => id.toString());
+    }
+
+    // "Destinations for you": one card per distinct location
+    const seen = new Set();
+    const destinations = [];
+    for (const l of allListings) {
+        if (l.location && !seen.has(l.location)) {
+            seen.add(l.location);
+            destinations.push(l);
+        }
+    }
+
+    // "Popular homes in ...": the 2 countries with the most listings
+    const byCountry = {};
+    for (const l of allListings) {
+        if (!l.country) continue;
+        (byCountry[l.country] ||= []).push(l);
+    }
+    const popularSections = Object.entries(byCountry)
+        .sort((a, b) => b[1].length - a[1].length)
+        .slice(0, 2)
+        .map(([country, listings]) => ({ country, listings: listings.slice(0, 12) }));
+
+    res.render("listings/index", {
+        allListings,
+        destinations: destinations.slice(0, 12),
+        popularSections,
+        favouriteIds,
+    });
+};
+
+module.exports.toggleFavourite = async (req, res) => {
+    const { id } = req.params;
+    const user = await User.findById(req.user._id);
+    const index = user.favourites.findIndex((f) => f.toString() === id);
+    let favourited;
+    if (index > -1) {
+        user.favourites.splice(index, 1);
+        favourited = false;
+    } else {
+        user.favourites.push(id);
+        favourited = true;
+    }
+    await user.save();
+    res.json({ favourited });
 };
 
 module.exports.renderNewForm = (req, res) => {

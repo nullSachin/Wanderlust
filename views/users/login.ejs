@@ -2,8 +2,12 @@
 
 <div class="auth-wrapper">
   <div class="auth-card">
-    <h2 class="auth-title">Log in</h2>
-    <p class="auth-subtitle">Welcome back to WanderLust</p>
+
+    <div class="auth-header">
+      <i class="fa-regular fa-compass"></i>
+      <h2 class="auth-title">Welcome back</h2>
+      <p class="auth-subtitle">Log in to continue to WanderLust</p>
+    </div>
 
     <a href="/auth/google" class="social-btn">
       <i class="fa-brands fa-google"></i> Continue with Google
@@ -12,20 +16,37 @@
       <i class="fa-brands fa-facebook" style="color:#1877F2;"></i> Continue with Facebook
     </a>
 
-    <div class="auth-divider"><span>or</span></div>
+    <div class="auth-divider"><span>or log in with username</span></div>
 
     <form action="/login" method="POST" novalidate class="needs-validation">
-      <div class="mb-3">
-        <label for="username" class="auth-label">Username</label>
-        <input type="text" id="username" name="username" class="auth-input" required>
+      <div class="auth-field">
+        <input type="text" id="username" name="username" class="auth-input" placeholder=" " autocomplete="username" required>
+        <label for="username">Username</label>
       </div>
-      <div class="mb-3">
-        <label for="password" class="auth-label">Password</label>
-        <input type="password" id="password" name="password" class="auth-input" required>
+
+      <div class="auth-field">
+        <input type="password" id="password" name="password" class="auth-input auth-input-password" placeholder=" " autocomplete="current-password" required>
+        <label for="password">Password</label>
+        <button type="button" class="auth-eye" data-target="password" aria-label="Show password">
+          <i class="fa-regular fa-eye"></i>
+        </button>
       </div>
+
       <button type="submit" class="auth-submit">Log in</button>
     </form>
 
     <p class="auth-footer-text">Don't have an account? <a href="/signup">Sign up</a></p>
   </div>
 </div>
+
+<script>
+  document.querySelectorAll(".auth-eye").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var input = document.getElementById(btn.dataset.target);
+      var show = input.type === "password";
+      input.type = show ? "text" : "password";
+      btn.querySelector("i").className = show ? "fa-regular fa-eye-slash" : "fa-regular fa-eye";
+      btn.setAttribute("aria-label", show ? "Hide password" : "Show password");
+    });
+  });
+</script>

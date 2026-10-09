@@ -2,8 +2,12 @@
 
 <div class="auth-wrapper">
   <div class="auth-card">
-    <h2 class="auth-title">Sign up</h2>
-    <p class="auth-subtitle">Create your WanderLust account</p>
+
+    <div class="auth-header">
+      <i class="fa-regular fa-compass"></i>
+      <h2 class="auth-title">Create your account</h2>
+      <p class="auth-subtitle">Join WanderLust and start exploring.</p>
+    </div>
 
     <a href="/auth/google" class="social-btn">
       <i class="fa-brands fa-google"></i> Continue with Google
@@ -12,24 +16,43 @@
       <i class="fa-brands fa-facebook" style="color:#1877F2;"></i> Continue with Facebook
     </a>
 
-    <div class="auth-divider"><span>or</span></div>
+    <div class="auth-divider"><span>or sign up with email</span></div>
 
     <form action="/signup" method="POST" novalidate class="needs-validation">
-      <div class="mb-3">
-        <label for="username" class="auth-label">Username</label>
-        <input type="text" id="username" name="username" class="auth-input" required>
+      <div class="auth-field">
+        <input type="text" id="username" name="username" class="auth-input" placeholder=" " autocomplete="username" required>
+        <label for="username">Username</label>
       </div>
-      <div class="mb-3">
-        <label for="email" class="auth-label">Email</label>
-        <input type="email" id="email" name="email" class="auth-input" required>
+
+      <div class="auth-field">
+        <input type="email" id="email" name="email" class="auth-input" placeholder=" " autocomplete="email" required>
+        <label for="email">Email</label>
       </div>
-      <div class="mb-3">
-        <label for="password" class="auth-label">Password</label>
-        <input type="password" id="password" name="password" class="auth-input" required>
+
+      <div class="auth-field">
+        <input type="password" id="password" name="password" class="auth-input auth-input-password" placeholder=" " autocomplete="new-password" required>
+        <label for="password">Password</label>
+        <button type="button" class="auth-eye" data-target="password" aria-label="Show password">
+          <i class="fa-regular fa-eye"></i>
+        </button>
       </div>
-      <button type="submit" class="auth-submit">Sign up</button>
+
+      <button type="submit" class="auth-submit">Create account</button>
     </form>
 
+    <p class="auth-terms">By signing up you agree to our <a href="#">Terms</a> and <a href="#">Privacy Policy</a>.</p>
     <p class="auth-footer-text">Already have an account? <a href="/login">Log in</a></p>
   </div>
 </div>
+
+<script>
+  document.querySelectorAll(".auth-eye").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var input = document.getElementById(btn.dataset.target);
+      var show = input.type === "password";
+      input.type = show ? "text" : "password";
+      btn.querySelector("i").className = show ? "fa-regular fa-eye-slash" : "fa-regular fa-eye";
+      btn.setAttribute("aria-label", show ? "Hide password" : "Show password");
+    });
+  });
+</script>

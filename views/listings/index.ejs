@@ -1,138 +1,118 @@
-<% layout("/layouts/boilerplate") %> 
+<% layout("/layouts/boilerplate") %>
 
-    <style>
-        #filters {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-        }
-        .filter {
-            text-align: center;
-            margin-right: 2rem;
-            margin-top: 2rem;
-            opacity: 0.7;
-        }
-        .filter:hover {
-            opacity: 1;
-            cursor: pointer;
-        }
-        .filter p {
-            font-size: 0.8rem;
-        }
-        .tax-info {
-            display: none;
-        }
-        .tax-toggle {
-            border: 1px solid black;
-            border-radius: 1rem;
-            height: 3.25rem;
-            padding: 1rem;
-            margin-left: 2rem;
-            display: flex;
-            align-items: center;
-        }
-    </style>
+<div id="filters">
+    <div class="filter"><div><i class="fa-solid fa-fire"></i></div><p>Trending</p></div>
+    <div class="filter"><div><i class="fa-solid fa-bed"></i></div><p>Rooms</p></div>
+    <div class="filter"><div><i class="fa-solid fa-mountain-city"></i></div><p>Iconic cities</p></div>
+    <div class="filter"><div><i class="fa-solid fa-mountain"></i></div><p>Mountains</p></div>
+    <div class="filter"><div><i class="fa-brands fa-fort-awesome"></i></div><p>Castles</p></div>
+    <div class="filter"><div><i class="fa-solid fa-person-swimming"></i></div><p>Amazing Pools</p></div>
+    <div class="filter"><div><i class="fa-solid fa-campground"></i></div><p>Camping</p></div>
+    <div class="filter"><div><i class="fa-solid fa-cow"></i></div><p>Farms</p></div>
+    <div class="filter"><div><i class="fa-regular fa-snowflake"></i></div><p>Arctic</p></div>
+    <div class="filter"><div><i class="fa-solid fa-igloo"></i></div><p>Domes</p></div>
+    <div class="filter"><div><i class="fa-solid fa-ship"></i></div><p>Boats</p></div>
+</div>
 
-    <div id="filters">
-
-        <div class="filter">
-            <div><i class="fa-solid fa-fire"></i></div>
-            <p>Trending</p>
+<% if (destinations.length) { %>
+<section class="wl-section">
+    <div class="wl-section-head">
+        <h2>Destinations for you</h2>
+        <div class="wl-arrows">
+            <button type="button" class="wl-arrow" data-dir="-1" aria-label="Scroll left"><i class="fa-solid fa-chevron-left"></i></button>
+            <button type="button" class="wl-arrow" data-dir="1" aria-label="Scroll right"><i class="fa-solid fa-chevron-right"></i></button>
         </div>
-
-        <div class="filter">
-            <div><i class="fa-solid fa-bed"></i></div>
-            <p>Rooms</p>
-        </div>
-
-        <div class="filter">
-            <div><i class="fa-solid fa-mountain-city"></i></div>
-            <p>Iconic cities</p>
-        </div>
-
-        <div class="filter">
-            <div><i class="fa-solid fa-mountain"></i></div>
-            <p>Mountains</p>
-        </div>
-
-        <div class="filter">
-            <div><i class="fa-brands fa-fort-awesome"></i></div>
-            <p>Castles</p>
-        </div>
-
-        <div class="filter">
-            <div><i class="fa-solid fa-person-swimming"></i></div>
-            <p>Amazing Pools</p>
-        </div>
-
-         <div class="filter">
-            <div><i class="fa-solid fa-campground"></i></div>
-            <p>Camping</p>
-        </div>
-
-        <div class="filter">
-            <div><i class="fa-solid fa-cow"></i></div>
-            <p>Farms</p>
-        </div>
-
-        <div class="filter">
-            <div><i class="fa-regular fa-snowflake"></i></div>
-            <p>Arctic</p>
-        </div>
-
-        <div class="filter">
-            <div><i class="fa-solid fa-igloo"></i></div>
-            <p>Domes</p>
-        </div>
-
-        <div class="filter">
-            <div><i class="fa-solid fa-ship"></i></div>
-            <p>Boats</p>
-        </div>
-
-        <div class="tax-toggle">
-            <div class="form-check-reverse form-switch">
-                <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault">
-                <label class="form-check-label" for="switchCheckDefault">Display total after taxes</label>
-            </div>
-        </div>
-
     </div>
-
-    <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-3">
-        <% for(let listing of allListings) { %>
-            <a href="/listings/<%= listing._id %>" class="listing-link">
-            <div class="card col listing-card">
-                <img src="<%= listing.image.url %>" class="card-img-top" alt="listing_image" style="height: 20rem;">
-                <div class="card-img-overlay"></div>
-                <div class="card-body">
-                    <p class="card-text">
-                       <b><%= listing.title %></b><br/>
-                        &#8377; <%= listing.price.toLocaleString("en-IN") %> / night
-                        <i class="tax-info"> &nbsp; &nbsp; +18% GST</i>
-                    </p>
-                </div>
-            </div>
+    <div class="wl-row">
+        <% for (let d of destinations) { %>
+            <a href="/listings" class="wl-dest">
+                <img src="<%= d.image.url %>" alt="<%= d.location %>" loading="lazy">
+                <div class="wl-dest-name"><%= d.location %></div>
+                <div class="wl-dest-sub"><%= d.country %></div>
             </a>
         <% } %>
     </div>
-  
+</section>
+<% } %>
 
-   <script>
-        let taxSwitch = document.getElementById("switchCheckDefault");
-        taxSwitch.addEventListener("click", () => {
-            let taxInfo = document.getElementsByClassName("tax-info");
-            for(info of taxInfo) {
-                if(info.style.display != "inline") {
-                    info.style.display = "inline";
-                }
-                else {
-                    info.style.display = "none";
-                }
-                
-            }
+<% for (let section of popularSections) { %>
+<section class="wl-section">
+    <div class="wl-section-head">
+        <h2>Popular homes in <%= section.country %></h2>
+        <div class="wl-arrows">
+            <button type="button" class="wl-arrow" data-dir="-1" aria-label="Scroll left"><i class="fa-solid fa-chevron-left"></i></button>
+            <button type="button" class="wl-arrow" data-dir="1" aria-label="Scroll right"><i class="fa-solid fa-chevron-right"></i></button>
+        </div>
+    </div>
+    <div class="wl-row">
+        <% for (let listing of section.listings) { %>
+            <%- include("../includes/listing-card", { listing: listing, favouriteIds: favouriteIds }) %>
+        <% } %>
+    </div>
+</section>
+<% } %>
+
+<section class="wl-section">
+    <div class="wl-section-head">
+        <h2>All stays</h2>
+    </div>
+    <div class="wl-grid">
+        <% for (let listing of allListings) { %>
+            <%- include("../includes/listing-card", { listing: listing, favouriteIds: favouriteIds }) %>
+        <% } %>
+    </div>
+</section>
+
+<div id="page-data" data-logged-in="<%= currUser ? 'true' : 'false' %>" hidden></div>
+
+<script>
+    const isLoggedIn = document.getElementById("page-data").dataset.loggedIn === "true";
+
+    // Scroll arrows for every sideways row
+    document.querySelectorAll(".wl-section").forEach(function (section) {
+        const row = section.querySelector(".wl-row");
+        const prev = section.querySelector('[data-dir="-1"]');
+        const next = section.querySelector('[data-dir="1"]');
+        if (!row || !prev || !next) return;
+
+        function update() {
+            prev.disabled = row.scrollLeft <= 4;
+            next.disabled = row.scrollLeft + row.clientWidth >= row.scrollWidth - 4;
+        }
+        prev.addEventListener("click", function () {
+            row.scrollBy({ left: -row.clientWidth * 0.9, behavior: "smooth" });
         });
-   </script>
+        next.addEventListener("click", function () {
+            row.scrollBy({ left: row.clientWidth * 0.9, behavior: "smooth" });
+        });
+        row.addEventListener("scroll", update, { passive: true });
+        window.addEventListener("resize", update);
+        update();
+    });
 
+    // Favourite hearts
+    document.addEventListener("click", async function (e) {
+        const btn = e.target.closest(".fav-btn");
+        if (!btn) return;
+        e.preventDefault();
 
-
+        if (!isLoggedIn) {
+            window.location.href = "/login";
+            return;
+        }
+        try {
+            const res = await fetch("/listings/" + btn.dataset.id + "/favourite", {
+                method: "POST",
+                headers: { "Accept": "application/json" },
+            });
+            if (!res.ok) throw new Error("Request failed");
+            const data = await res.json();
+            document.querySelectorAll('.fav-btn[data-id="' + btn.dataset.id + '"]').forEach(function (b) {
+                b.classList.toggle("active", data.favourited);
+                b.setAttribute("aria-pressed", data.favourited);
+            });
+        } catch (err) {
+            console.error(err);
+        }
+    });
+</script>
