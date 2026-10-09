@@ -1,0 +1,16 @@
+<% layout("/layouts/boilerplate") %>
+
+<div class="auth-wrapper">
+  <div class="auth-card">
+    <div class="auth-header">
+      <i class="fa-regular fa-envelope" style="font-size:2rem;color:#fe424d;"></i>
+      <h2 class="auth-title">Check your email</h2>
+      <p class="auth-subtitle">We sent you a verification link. It expires in 24 hours.</p>
+    </div>
+
+    <p class="auth-note">Click the link in the email to activate your account. If you do not see it within a minute or two, check your spam folder.</p>
+
+    <a href="/login" class="auth-submit" style="display:block;text-align:center;line-height:50px;text-decoration:none">Go to log in</a>
+    <p class="auth-footer-text">Did not get it? <a href="/resend-verification">Send a new link</a></p>
+  </div>
+</div>

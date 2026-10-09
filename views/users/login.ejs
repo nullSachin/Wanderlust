@@ -16,12 +16,12 @@
       <i class="fa-brands fa-facebook" style="color:#1877F2;"></i> Continue with Facebook
     </a>
 
-    <div class="auth-divider"><span>or log in with username</span></div>
+    <div class="auth-divider"><span>or log in with username or email</span></div>
 
     <form action="/login" method="POST" novalidate class="needs-validation">
       <div class="auth-field">
         <input type="text" id="username" name="username" class="auth-input" placeholder=" " autocomplete="username" required>
-        <label for="username">Username</label>
+        <label for="username">Username or email</label>
       </div>
 
       <div class="auth-field">
@@ -36,6 +36,7 @@
     </form>
 
     <p class="auth-footer-text">Don't have an account? <a href="/signup">Sign up</a></p>
+    <p class="auth-footer-text" style="margin-top:6px">Did not get the verification email? <a href="/resend-verification">Resend it</a></p>
   </div>
 </div>
 

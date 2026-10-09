@@ -79,7 +79,29 @@ app.use((req, res, next) => {
 
 app.use(passport.initialize());
 app.use(passport.session());
-passport.use(new LocalStrategy(User.authenticate()));
+passport.use(new LocalStrategy(async (identifier, password, done) => {
+    try {
+        const id = identifier.trim();
+        const user = await User.findOne({
+            $or: [{ username: id }, { email: id.toLowerCase() }],
+        });
+
+        const failMessage = "Incorrect username/email or password.";
+        if (!user) return done(null, false, { message: failMessage });
+
+        const result = await user.authenticate(password);
+        if (!result.user) return done(null, false, { message: failMessage });
+
+        if (!user.isVerified) {
+            return done(null, false, {
+                message: "Please verify your email before logging in. Check your inbox and spam folder, or request a new link.",
+            });
+        }
+        return done(null, user);
+    } catch (err) {
+        return done(err);
+    }
+}));
 
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());

@@ -6,7 +6,17 @@ const userSchema = new Schema({
     email: {
         type: String,
         required: true,
+        unique: true,
+        lowercase: true,
+        trim: true,
     },
+    isVerified: {
+        type: Boolean,
+        default: false,
+    },
+    verificationTokenHash: String,
+    verificationExpires: Date,
+    verificationSentAt: Date,
     favourites: [
         {
             type: Schema.Types.ObjectId,

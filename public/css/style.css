@@ -761,3 +761,32 @@ body {
 }
 .wl-dest-name { font-weight: 600; font-size: 0.9rem; margin-top: 0.5rem; color: #222; }
 .wl-dest-sub  { font-size: 0.8rem; color: #717171; }
+
+/* ===== Password rules checklist + notes ===== */
+.pw-rules {
+    list-style: none;
+    padding: 0;
+    margin: -4px 0 14px;
+    font-size: 0.8rem;
+    color: #717171;
+    display: grid;
+    gap: 4px;
+}
+.pw-rules li::before {
+    content: "○";
+    display: inline-block;
+    width: 1.3em;
+}
+.pw-rules li.met {
+    color: #1a7f37;
+}
+.pw-rules li.met::before {
+    content: "✓";
+}
+.auth-note {
+    font-size: 0.85rem;
+    color: #717171;
+    text-align: center;
+    line-height: 1.6;
+    margin: 0 0 16px;
+}

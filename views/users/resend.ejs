@@ -1,0 +1,21 @@
+<% layout("/layouts/boilerplate") %>
+
+<div class="auth-wrapper">
+  <div class="auth-card">
+    <div class="auth-header">
+      <i class="fa-regular fa-envelope" style="font-size:2rem;color:#fe424d;"></i>
+      <h2 class="auth-title">Resend verification</h2>
+      <p class="auth-subtitle">Enter your email and we will send a new link.</p>
+    </div>
+
+    <form action="/resend-verification" method="POST">
+      <div class="auth-field">
+        <input type="email" id="email" name="email" class="auth-input" placeholder=" " autocomplete="email" required>
+        <label for="email">Email</label>
+      </div>
+      <button type="submit" class="auth-submit">Send link</button>
+    </form>
+
+    <p class="auth-footer-text"><a href="/login">Back to log in</a></p>
+  </div>
+</div>

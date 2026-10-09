@@ -20,7 +20,7 @@
 
     <form action="/signup" method="POST" novalidate class="needs-validation">
       <div class="auth-field">
-        <input type="text" id="username" name="username" class="auth-input" placeholder=" " autocomplete="username" required>
+        <input type="text" id="username" name="username" class="auth-input" placeholder=" " autocomplete="username" pattern="[A-Za-z0-9_.\-]{3,30}" required>
         <label for="username">Username</label>
       </div>
 
@@ -37,6 +37,14 @@
         </button>
       </div>
 
+      <ul class="pw-rules" id="pw-rules">
+        <li data-rule="length">8 to 64 characters</li>
+        <li data-rule="lower">A lowercase letter (a-z)</li>
+        <li data-rule="upper">An uppercase letter (A-Z)</li>
+        <li data-rule="number">A number (0-9)</li>
+        <li data-rule="special">A special character (! @ # $ %)</li>
+      </ul>
+
       <button type="submit" class="auth-submit">Create account</button>
     </form>
 
@@ -46,6 +54,7 @@
 </div>
 
 <script>
+  // Show / hide password
   document.querySelectorAll(".auth-eye").forEach(function (btn) {
     btn.addEventListener("click", function () {
       var input = document.getElementById(btn.dataset.target);
@@ -54,5 +63,24 @@
       btn.querySelector("i").className = show ? "fa-regular fa-eye-slash" : "fa-regular fa-eye";
       btn.setAttribute("aria-label", show ? "Hide password" : "Show password");
     });
+  });
+
+  // Live password checklist
+  var pwInput = document.getElementById("password");
+  var checks = {
+    length: function (p) { return p.length >= 8 && p.length <= 64; },
+    lower: function (p) { return /[a-z]/.test(p); },
+    upper: function (p) { return /[A-Z]/.test(p); },
+    number: function (p) { return /\d/.test(p); },
+    special: function (p) { return /[^A-Za-z0-9]/.test(p); }
+  };
+  pwInput.addEventListener("input", function () {
+    var allMet = true;
+    document.querySelectorAll("#pw-rules li").forEach(function (li) {
+      var ok = checks[li.dataset.rule](pwInput.value);
+      li.classList.toggle("met", ok);
+      if (!ok) allMet = false;
+    });
+    pwInput.setCustomValidity(allMet ? "" : "Password does not meet all requirements");
   });
 </script>
